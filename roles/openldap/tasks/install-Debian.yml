@@ -36,6 +36,7 @@
     - question: "shared/organization"
       value: "{{ openldap_org }}"
       vtype: 'string'
+  become: yes
 
 - name: Install required packages
   apt:
@@ -51,6 +52,8 @@
   loop:
     - "/var/backups/unknown-2.4.47+dfsg-3+deb10u6.ldapdb"
     - "/var/backups/slapd-2.4.47+dfsg-3+deb10u6"
+  ignore_errors: true
+  become: yes
 
 - name: Reconfigure slapd
   command: dpkg-reconfigure -f noninteractive slapd
@@ -62,3 +65,4 @@
     enabled: yes
     daemon_reload: yes
     state: restarted
+  become: yes
